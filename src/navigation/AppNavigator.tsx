@@ -9,6 +9,7 @@ import { ModulesScreen } from '../screens/ModulesScreen';
 import { LessonScreen } from '../screens/LessonScreen';
 import { QuizScreen } from '../screens/QuizScreen';
 import { SubscriptionScreen } from '../screens/SubscriptionScreen';
+import { DisclaimerScreen } from '../screens/DisclaimerScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { RegisterScreen } from '../screens/RegisterScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
@@ -75,6 +76,7 @@ export function AppNavigator() {
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Disclaimer" component={DisclaimerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

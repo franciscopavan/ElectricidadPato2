@@ -109,10 +109,26 @@ export function ProfileScreen() {
         </View>
 
         <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Legal</Text>
+          <View style={styles.card}>
+            <TouchableOpacity
+              style={styles.menuRow}
+              onPress={() => (navigation as any).navigate('Disclaimer')}
+            >
+              <Text style={styles.menuIcon}>⚖️</Text>
+              <Text style={styles.menuText}>Aviso Legal y Responsabilidad</Text>
+              <Text style={styles.menuArrow}>›</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.section}>
           <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
             <Text style={styles.logoutText}>Cerrar sesión</Text>
           </TouchableOpacity>
         </View>
+
+        <Text style={styles.duckFooter}>🦆 ElectricidadPato2 v1.0 — Aprende con el pato ⚡</Text>
 
         <View style={{ height: 30 }} />
       </ScrollView>
@@ -167,4 +183,5 @@ const styles = StyleSheet.create({
   divider: { height: 1, backgroundColor: Colors.border, marginHorizontal: 16 },
   logoutBtn: { backgroundColor: Colors.danger + '18', borderRadius: 12, padding: 16, alignItems: 'center', borderWidth: 1, borderColor: Colors.danger + '40' },
   logoutText: { color: Colors.danger, fontSize: 16, fontWeight: '600' },
+  duckFooter: { fontSize: 12, color: Colors.textMuted, textAlign: 'center', paddingBottom: 8 },
 });

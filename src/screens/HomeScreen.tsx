@@ -35,9 +35,9 @@ export function HomeScreen() {
             <DuckLogo size={50} showText={false} />
             <View style={styles.headerText}>
               <Text style={styles.greeting}>
-                {user ? `¡Hola, ${user.name}!` : '¡Bienvenido!'}
+                {user ? `¡Cuak, ${user.name}! 🦆` : '¡Cuak! Bienvenido 🦆'}
               </Text>
-              <Text style={styles.subtitle}>Aprende electricidad paso a paso</Text>
+              <Text style={styles.subtitle}>⚡ Aprende electricidad con el pato</Text>
             </View>
             {user && <TierBadge tier={user.tier} />}
           </View>
