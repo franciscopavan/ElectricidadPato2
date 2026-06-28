@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, SafeAreaView, StatusBar,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TierBadge } from '../components/TierBadge';
 import { Colors } from '../theme/colors';
 import { MODULES } from '../data/modules';
+import { QUIZZES } from '../data/quizzes';
+import { useProgress } from '../context/ProgressContext';
 import { RootStackParamList } from '../types';
+
+type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 type LessonRoute = RouteProp<RootStackParamList, 'Lesson'>;
 
 export function LessonScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavProp>();
   const route = useRoute<LessonRoute>();
   const { lessonId, moduleId } = route.params;
+  const { markLessonRead, getProgress } = useProgress();
+  const lessonProgress = getProgress(lessonId);
+  const hasQuiz = (QUIZZES[lessonId]?.length ?? 0) > 0;
+
+  useEffect(() => {
+    markLessonRead(lessonId);
+  }, [lessonId]);
 
   const module = MODULES.find(m => m.id === moduleId);
   const lesson = module?.lessons.find(l => l.id === lessonId);
@@ -97,6 +109,30 @@ export function LessonScreen() {
           {renderContent(lesson.content)}
         </View>
 
+        {/* Quiz CTA */}
+        {hasQuiz && (
+          <View style={styles.quizCta}>
+            <Text style={styles.quizCtaTitle}>
+              {lessonProgress?.quizPassed ? '✅ Quiz completado' : '📝 Pon a prueba lo aprendido'}
+            </Text>
+            {lessonProgress?.quizScore !== undefined && (
+              <Text style={styles.quizCtaScore}>
+                Tu calificación: <Text style={{ color: lessonProgress.quizPassed ? Colors.success : Colors.danger, fontWeight: 'bold' }}>
+                  {lessonProgress.quizScore}%
+                </Text>
+              </Text>
+            )}
+            <TouchableOpacity
+              style={[styles.quizBtn, lessonProgress?.quizPassed && styles.quizBtnPassed]}
+              onPress={() => navigation.navigate('Quiz', { lessonId, moduleId })}
+            >
+              <Text style={styles.quizBtnText}>
+                {lessonProgress?.quizPassed ? '🔄 Repetir quiz' : '⚡ Hacer quiz'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View style={{ height: 40 }} />
       </ScrollView>
     </SafeAreaView>
@@ -155,4 +191,26 @@ const styles = StyleSheet.create({
   bulletRow: { flexDirection: 'row', gap: 8, marginVertical: 2 },
   bullet: { color: Colors.primary, fontSize: 16, lineHeight: 22 },
   bulletText: { flex: 1, fontSize: 14, color: Colors.textSecondary, lineHeight: 22 },
+  quizCta: {
+    margin: 20,
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 1.5,
+    borderColor: Colors.primary + '60',
+    gap: 10,
+    alignItems: 'center',
+  },
+  quizCtaTitle: { fontSize: 16, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
+  quizCtaScore: { fontSize: 13, color: Colors.textSecondary },
+  quizBtn: {
+    backgroundColor: Colors.primary,
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  quizBtnPassed: { backgroundColor: Colors.surfaceLight, borderWidth: 1, borderColor: Colors.border },
+  quizBtnText: { color: Colors.white, fontSize: 15, fontWeight: 'bold' },
 });

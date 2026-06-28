@@ -7,6 +7,7 @@ import { Text } from 'react-native';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ModulesScreen } from '../screens/ModulesScreen';
 import { LessonScreen } from '../screens/LessonScreen';
+import { QuizScreen } from '../screens/QuizScreen';
 import { SubscriptionScreen } from '../screens/SubscriptionScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { RegisterScreen } from '../screens/RegisterScreen';
@@ -70,6 +71,7 @@ export function AppNavigator() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="Lesson" component={LessonScreen} />
+        <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
